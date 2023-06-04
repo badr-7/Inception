@@ -1,0 +1,9 @@
+services:
+    nginx :
+      image: mynginx
+      ports:
+        - 443:443
+    mariaDB :
+      image: mydb
+      env_file: .env
+
