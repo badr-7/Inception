@@ -20,7 +20,7 @@ echo "FLUSH PRIVILEGES;"| mysql
 
 echo "FLUSH SUCCESSFULLY"
 
-service mysql stop
+mysqladmin -p"$MYSQL_ROOT_PASSWORD" shutdown
 
 fi
 
