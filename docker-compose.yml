@@ -3,7 +3,19 @@ services:
       image: mynginx
       ports:
         - 443:443
-    mariaDB :
-      image: mydb
+    db :
+      build: ./MariaDB
       env_file: .env
+      volumes:
+        - mariadb:/var/lib/mysql
+    adminer:
+      image: adminer
+      ports:
+        - 8080:8080
 
+volumes:
+  mariadb:
+    driver_opts:
+      type: none
+      o: bind
+      device: /goinfre/Inception/data/db
