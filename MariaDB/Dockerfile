@@ -4,4 +4,4 @@ RUN apt-get -y update && apt-get -y install mariadb-server
 
 COPY ./tools/creatDB.sh /etc/
 
-CMD ["./creatDB.sh"]
+CMD ["./etc/creatDB.sh"]
