@@ -2,7 +2,9 @@ services:
     nginx :
       image: mynginx
       ports:
-        - 443:443
+        - 445:445
+      # volumes:
+      #   - nginx:/var/lib/mysql
     db :
       build: ./MariaDB
       env_file: .env
@@ -12,10 +14,32 @@ services:
       image: adminer
       ports:
         - 8080:8080
+    wordpress:
+      build: ./WordPress
+      volumes:
+        - wp:/var/www/html/wordpress
+    
 
 volumes:
   mariadb:
+    driver: local
     driver_opts:
       type: none
       o: bind
       device: /goinfre/Inception/data/db
+  nginx:
+    driver_opts:
+      type: none
+      o: bind
+      device: /goinfre/Inception/data/nginx
+  wp:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /goinfre/Inception/data/wp
+  # mariadb:
+  #   driver_opts:
+  #     type: none
+  #     o: bind
+  #     device: /goinfre/Inception/data/db
