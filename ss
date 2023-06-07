@@ -134,3 +134,24 @@ chown -R www-data:www-data /var/www/html/wordpress
 service php7.3-fpm start
 nginx -g "daemon off;"
 
+
+
+
+
+
+  1  apt-get -y update && apt-get -y install php-fmp php-mysql curl
+    2  apt-get -y install php-fpm php-mysql curl
+    3  curl
+    4  ls
+    5  wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    6  apt install wget
+    7  wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    8  ls
+    9  chmod +x  wp-cli.phar
+   10  mv wp-cli.phar usr/local/bin/wp
+   11  wp
+   12  wp --help
+   13  php wp --info
+   14   wp --info
+   15  wp cli update
+   16  history

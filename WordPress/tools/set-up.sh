@@ -1,21 +1,38 @@
 #!/bin/sh
 
-# cat << EOF >> /etc/php/7.3/fpm/pool.d/www.conf
-# [www]
-# listen = 9000
-# EOF
+rm -rf /etc/nginx/sites-available/default
+rm -rf /etc/nginx/sites-enabled/default
 
 mkdir -p /var/www/html
 
-cd /var/www/html
+rm -rf /var/www/html/*
 
-wget http://wordpress.org/latest.tar.gz
+wget -O usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
-tar xfz latest.tar.gz && rm -rf latest.tar.gz
+chmod +x /usr/local/bin/wp
 
-cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
-sed -i 's/database_name_here/'$DB_Name'/' /var/www/html/wordpress/wp-config.php
-sed -i 's/username_here/root/' /var/www/html/wordpress/wp-config.php
-sed -i 's/password_here/'$MYSQL_ROOT_PASSWORD'/' /var/www/html/wordpress/wp-config.php
+wp cli update
 
-# sed -i 's/127.0.0.1/0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
+wp core download --path=/var/www/html --allow-root
+
+mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+
+sed -i -r "s/database_name_here/$DB_Name/1"   /var/www/html/wp-config.php
+sed -i -r "s/username_here/$MYSQL_USER/1"  /var/www/html/wp-config.php
+sed -i -r "s/password_here/$MYSQL_PASSWORD/1"    /var/www/html/wp-config.php
+sed -i -r "s/localhost/db/1"    /var/www/html/wp-config.php
+
+echo DOMAIN_URL $DOMAIN_NAME
+
+wp core install --url=localhost --title="Wordpress page" --admin_name=$AD_USER --admin_email=$AD_USER_EMAIL  --admin_password=$AD_USER_PASS --path=/var/www/html --allow-root --skip-email
+
+wp user create $USER $USER_EMAIL  --user_pass=$USER_PASS --path=/var/www/html --allow-root
+
+sed -i 's/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm/pool.d/www.conf
+
+
+mkdir -p /run/php
+
+php-fpm7.3 -F
+
+echo "started ......"

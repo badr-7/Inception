@@ -1,8 +1,15 @@
 services:
     nginx :
-      image: mynginx
+      build: ./NGINX
       ports:
-        - 445:445
+        - 443:443
+      depends_on:
+        - wordpress
+      volumes:
+        - wp:/var/www/html
+      networks:
+        - internal_network
+      restart: on-failure
       # volumes:
       #   - nginx:/var/lib/mysql
     db :
@@ -10,14 +17,30 @@ services:
       env_file: .env
       volumes:
         - mariadb:/var/lib/mysql
+      networks:
+      - internal_network
+      restart: on-failure
+    
     adminer:
       image: adminer
       ports:
         - 8080:8080
+    
     wordpress:
       build: ./WordPress
       volumes:
-        - wp:/var/www/html/wordpress
+        - wp:/var/www/html/
+      depends_on:
+        - db
+      restart: on-failure
+      environment:
+        - DOMAIN_NAME=$DOMAIN_NAME
+      env_file:
+        - .env
+      ports:
+        - 9000:9000
+      networks:
+        - internal_network
     
 
 volumes:
@@ -27,19 +50,14 @@ volumes:
       type: none
       o: bind
       device: /goinfre/Inception/data/db
-  nginx:
-    driver_opts:
-      type: none
-      o: bind
-      device: /goinfre/Inception/data/nginx
   wp:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: /goinfre/Inception/data/wp
-  # mariadb:
-  #   driver_opts:
-  #     type: none
-  #     o: bind
-  #     device: /goinfre/Inception/data/db
+
+networks:
+  internal_network:
+    name: 'internal_network'
+    driver: bridge
