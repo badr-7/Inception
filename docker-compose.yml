@@ -7,18 +7,17 @@ services:
         - wordpress
       volumes:
         - wp:/var/www/html
+      networks:
+        - internal_network
       restart: on-failure
     db :
       build: ./MariaDB
       env_file: .env
       volumes:
         - mariadb:/var/lib/mysql
+      networks:
+        - internal_network
       restart: on-failure
-    
-    adminer:
-      image: adminer
-      ports:
-        - 8080:8080
     
     wordpress:
       build: ./WordPress
@@ -26,13 +25,13 @@ services:
         - wp:/var/www/html/
       depends_on:
         - db
-      restart: on-failure
       env_file:
         - .env
       ports:
         - 9000:9000
-      # networks:
-      #   - internal_network
+      networks:
+        - internal_network
+      restart: on-failure
     
 
 volumes:
@@ -49,7 +48,7 @@ volumes:
       o: bind
       device: ./data/wp
 
-# networks:
-#   internal_network:
-#     name: 'internal_network'
-#     driver: bridge
+networks:
+  internal_network:
+    name: 'internal_network'
+    driver: bridge
