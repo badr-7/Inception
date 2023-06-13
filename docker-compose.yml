@@ -7,18 +7,12 @@ services:
         - wordpress
       volumes:
         - wp:/var/www/html
-      networks:
-        - internal_network
       restart: on-failure
-      # volumes:
-      #   - nginx:/var/lib/mysql
     db :
       build: ./MariaDB
       env_file: .env
       volumes:
         - mariadb:/var/lib/mysql
-      networks:
-      - internal_network
       restart: on-failure
     
     adminer:
@@ -33,14 +27,12 @@ services:
       depends_on:
         - db
       restart: on-failure
-      environment:
-        - DOMAIN_NAME=$DOMAIN_NAME
       env_file:
         - .env
       ports:
         - 9000:9000
-      networks:
-        - internal_network
+      # networks:
+      #   - internal_network
     
 
 volumes:
@@ -49,15 +41,15 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /goinfre/Inception/data/db
+      device: ./data/db
   wp:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /goinfre/Inception/data/wp
+      device: ./data/wp
 
-networks:
-  internal_network:
-    name: 'internal_network'
-    driver: bridge
+# networks:
+#   internal_network:
+#     name: 'internal_network'
+#     driver: bridge

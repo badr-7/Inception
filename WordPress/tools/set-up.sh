@@ -1,5 +1,7 @@
 #!/bin/sh
 
+sleep 5
+
 rm -rf /etc/nginx/sites-available/default
 rm -rf /etc/nginx/sites-enabled/default
 
@@ -22,9 +24,8 @@ sed -i -r "s/username_here/$MYSQL_USER/1"  /var/www/html/wp-config.php
 sed -i -r "s/password_here/$MYSQL_PASSWORD/1"    /var/www/html/wp-config.php
 sed -i -r "s/localhost/db/1"    /var/www/html/wp-config.php
 
-echo DOMAIN_URL $DOMAIN_NAME
 
-wp core install --url=localhost --title="Wordpress page" --admin_name=$AD_USER --admin_email=$AD_USER_EMAIL  --admin_password=$AD_USER_PASS --path=/var/www/html --allow-root --skip-email
+wp core install --url=$DOMAIN_NAME --title="Wordpress page" --admin_name=$AD_USER --admin_email=$AD_USER_EMAIL  --admin_password=$AD_USER_PASS --path=/var/www/html --allow-root --skip-email
 
 wp user create $USER $USER_EMAIL  --user_pass=$USER_PASS --path=/var/www/html --allow-root
 
@@ -34,5 +35,3 @@ sed -i 's/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm
 mkdir -p /run/php
 
 php-fpm7.3 -F
-
-echo "started ......"
