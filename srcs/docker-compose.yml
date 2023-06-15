@@ -27,12 +27,10 @@ services:
         - db
       env_file:
         - .env
-      ports:
-        - 9000:9000
       networks:
         - internal_network
       restart: on-failure
-    
+
 
 volumes:
   mariadb:
@@ -40,13 +38,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./data/db
+      device: /home/mel-hous/data/db
   wp:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./data/wp
+      device: /home/mel-hous/data/wp
 
 networks:
   internal_network:

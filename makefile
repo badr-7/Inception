@@ -3,8 +3,8 @@ all : volume
 	sudo docker-compose up -d --build
 
 volume : 
-		sudo mkdir -p $(shell pwd)/srcs/data/wp
-		sudo mkdir -p $(shell pwd)/srcs/data/db
+		sudo mkdir -p /home/mel-hous/data/wp
+		sudo mkdir -p /home/mel-hous/data/db
 
 stop : 
 	cd srcs; \
@@ -12,7 +12,7 @@ stop :
 clean :
 	cd srcs; \
 	sudo docker-compose down --remove-orphans 
-	sudo rm -rf srcs/data
+	sudo rm -rf /home/mel-hous/data
 
 logs :
 	cd srcs; \
