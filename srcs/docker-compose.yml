@@ -43,13 +43,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /private/tmp/Inception/data/db
+      device: /home/mel-hous/data/db
   wp:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /private/tmp/Inception/data/wp
+      device: /home/mel-hous/data/wp
 
 networks:
   internal_network:

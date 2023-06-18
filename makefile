@@ -1,21 +1,21 @@
 all : volume
 	cd srcs; \
-	docker-compose up -d --build
+	sudo docker-compose up -d --build
 
 volume : 
-		 mkdir -p /private/tmp/Inception/data/wp
-		 mkdir -p /private/tmp/Inception/data/db
+		sudo mkdir -p /home/mel-hous/data/wp
+		sudo mkdir -p /home/mel-hous/data/db
 
 stop : 
 	cd srcs; \
-	docker-compose down
+	sudo docker-compose down
 clean :
 	cd srcs; \
-	docker-compose down --remove-orphans 
-	rm -rf /private/tmp/Inception/data
+	sudo docker-compose down --remove-orphans 
+	sudo rm -rf /home/mel-hous/data
 
 logs :
 	cd srcs; \
-	docker-compose logs -f
+	sudo docker-compose logs -f
 
 re : clean all
