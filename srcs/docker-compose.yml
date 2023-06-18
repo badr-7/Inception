@@ -30,7 +30,12 @@ services:
       networks:
         - internal_network
       restart: on-failure
-
+    sitweb :
+      build: ./requirements/bonus/website
+      ports:
+        - 5000:80
+      restart: on-failure
+      
 
 volumes:
   mariadb:
