@@ -12,4 +12,4 @@ COPY  ./tools/self_signed_crt.sh .
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
-CMD [ "bash" , "./self_signed_crt.sh" ]
+CMD ["./self_signed_crt.sh" ]

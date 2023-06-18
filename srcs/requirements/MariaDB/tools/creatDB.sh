@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ ! -d "/var/lib/mysql/$DB_Name" ]; then
 
